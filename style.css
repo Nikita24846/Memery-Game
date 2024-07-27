@@ -128,7 +128,6 @@ button.hidden {
     transform: rotateY(360deg);
 }
 
-/* Message box styling */
 .message-box {
     display: none;
     text-align: center;
