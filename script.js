@@ -1,146 +1,138 @@
-const selectors = {
-    boardContainer: document.querySelector('.board-container'),
-    board: document.querySelector('.board'),
-    moves: document.querySelector('.moves'),
-    timer: document.querySelector('.timer'),
-    start: document.querySelector('button'),
-    win: document.querySelector('.win')
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const boardContainer = document.querySelector('.board-container');
+    const board = document.querySelector('.board');
+    const movesElement = document.querySelector('.moves');
+    const timerElement = document.querySelector('.timer');
+    const startButton = document.querySelector('#start-button');
+    const playAgainFromMessageButton = document.querySelector('#play-again-from-message');
+    const exitFromMessageButton = document.querySelector('#exit-from-message');
+    const messageBox = document.querySelector('.message-box');
 
-const state = {
-    gameStarted: false,
-    flippedCards: 0,
-    totalFlips: 0,
-    totalTime: 0,
-    loop: null
-}
+    let cards;
+    let flippedCards = [];
+    let matchedCards = 0;
+    let moves = 0;
+    let timer;
+    let time = 0;
+    const timeLimit = 60; // 1 minute
 
-const shuffle = array => {
-    const clonedArray = [...array]
-
-    for (let i = clonedArray.length - 1; i > 0; i--) {
-        const randomIndex = Math.floor(Math.random() * (i + 1))
-        const original = clonedArray[i]
-
-        clonedArray[i] = clonedArray[randomIndex]
-        clonedArray[randomIndex] = original
-    }
-
-    return clonedArray
-}
-
-const pickRandom = (array, items) => {
-    const clonedArray = [...array]
-    const randomPicks = []
-
-    for (let i = 0; i < items; i++) {
-        const randomIndex = Math.floor(Math.random() * clonedArray.length)
-        
-        randomPicks.push(clonedArray[randomIndex])
-        clonedArray.splice(randomIndex, 1)
-    }
-
-    return randomPicks
-}
-
-const generateGame = () => {
-    const dimensions = selectors.board.getAttribute('data-dimension')  
-
-    if (dimensions % 2 !== 0) {
-        throw new Error("The dimension of the board must be an even number.")
-    }
-
-    const emojis = ['🥔', '🍒', '🥑', '🌽', '🥕', '🍇', '🍉', '🍌', '🥭', '🍍']
-    const picks = pickRandom(emojis, (dimensions * dimensions) / 2) 
-    const items = shuffle([...picks, ...picks])
-    const cards = `
-        <div class="board" style="grid-template-columns: repeat(${dimensions}, auto)">
-            ${items.map(item => `
-                <div class="card">
-                    <div class="card-front"></div>
-                    <div class="card-back">${item}</div>
-                </div>
-            `).join('')}
-       </div>
-    `
+    // Update symbols with emojis
+    const symbols = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍍', '🥥', '🍓'];
     
-    const parser = new DOMParser().parseFromString(cards, 'text/html')
-
-    selectors.board.replaceWith(parser.querySelector('.board'))
-}
-
-const startGame = () => {
-    state.gameStarted = true
-    selectors.start.classList.add('disabled')
-
-    state.loop = setInterval(() => {
-        state.totalTime++
-
-        selectors.moves.innerText = `${state.totalFlips} moves`
-        selectors.timer.innerText = `Time: ${state.totalTime} sec`
-    }, 1000)
-}
-
-const flipBackCards = () => {
-    document.querySelectorAll('.card:not(.matched)').forEach(card => {
-        card.classList.remove('flipped')
-    })
-
-    state.flippedCards = 0
-}
-
-const flipCard = card => {
-    state.flippedCards++
-    state.totalFlips++
-
-    if (!state.gameStarted) {
-        startGame()
+    function startGame() {
+        resetGame();
+        createBoard();
+        startTimer();
+        boardContainer.style.display = 'flex';
+        messageBox.style.display = 'none';
+        startButton.classList.add('hidden');
+        playAgainFromMessageButton.classList.add('hidden');
+        exitFromMessageButton.classList.add('hidden');
     }
 
-    if (state.flippedCards <= 2) {
-        card.classList.add('flipped')
+    function resetGame() {
+        clearInterval(timer);
+        time = 0;
+        moves = 0;
+        matchedCards = 0;
+        flippedCards = [];
+        movesElement.textContent = '0 moves';
+        timerElement.textContent = 'Time: 0 sec';
+        startButton.classList.remove('hidden');
     }
 
-    if (state.flippedCards === 2) {
-        const flippedCards = document.querySelectorAll('.flipped:not(.matched)')
+    function startTimer() {
+        timer = setInterval(() => {
+            time++;
+            timerElement.textContent = `Time: ${time} sec`;
+            if (time >= timeLimit) {
+                clearInterval(timer);
+                loseGame();
+            }
+        }, 1000);
+    }
 
-        if (flippedCards[0].innerText === flippedCards[1].innerText) {
-            flippedCards[0].classList.add('matched')
-            flippedCards[1].classList.add('matched')
+    function createBoard() {
+        const cardSymbols = shuffle([...symbols, ...symbols]);
+        board.innerHTML = '';
+        cardSymbols.forEach(symbol => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <div class="card-front"></div>
+                <div class="card-back">${symbol}</div>
+            `;
+            card.addEventListener('click', flipCard);
+            board.appendChild(card);
+        });
+        cards = document.querySelectorAll('.card');
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
-
-        setTimeout(() => {
-            flipBackCards()
-        }, 1000)
+        return array;
     }
-    if (!document.querySelectorAll('.card:not(.flipped)').length) {
-        setTimeout(() => {
-            selectors.boardContainer.classList.add('flipped')
-            selectors.win.innerHTML = `
-                <span class="win-text">
-                    You won!<br />
-                    with <span class="highlight">${state.totalFlips}</span> moves<br />
-                    under <span class="highlight">${state.totalTime}</span> seconds
-                </span>
-            `
 
-            clearInterval(state.loop)
-        }, 1000)
-    }
-}
-
-const attachEventListeners = () => {
-    document.addEventListener('click', event => {
-        const eventTarget = event.target
-        const eventParent = eventTarget.parentElement
-
-        if (eventTarget.className.includes('card') && !eventParent.className.includes('flipped')) {
-            flipCard(eventParent)
-        } else if (eventTarget.nodeName === 'BUTTON' && !eventTarget.className.includes('disabled')) {
-            startGame()
+    function flipCard() {
+        if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+            this.classList.add('flipped');
+            flippedCards.push(this);
+            if (flippedCards.length === 2) {
+                checkForMatch();
+            }
         }
-    })
-}
+    }
 
-generateGame()
-attachEventListeners()
+    function checkForMatch() {
+        moves++;
+        movesElement.textContent = `${moves} moves`;
+        const [card1, card2] = flippedCards;
+        if (card1.querySelector('.card-back').textContent === card2.querySelector('.card-back').textContent) {
+            matchedCards += 2;
+            flippedCards = [];
+            if (matchedCards === cards.length) {
+                winGame();
+            }
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                flippedCards = [];
+            }, 1000);
+        }
+    }
+
+    function winGame() {
+        clearInterval(timer);
+        displayMessage('You won!');
+    }
+
+    function loseGame() {
+        displayMessage('You are a loser!');
+    }
+
+    function displayMessage(message) {
+        messageBox.querySelector('.message').textContent = message;
+        messageBox.style.display = 'block';
+        boardContainer.style.display = 'none';
+        playAgainFromMessageButton.classList.remove('hidden');
+        exitFromMessageButton.classList.remove('hidden');
+    }
+
+    startButton.addEventListener('click', startGame);
+    playAgainFromMessageButton.addEventListener('click', () => {
+        location.reload(); // Reload the page to reset the game
+    });
+
+    exitFromMessageButton.addEventListener('click', () => {
+        // Hide the game area and display a thank you message
+        boardContainer.style.display = 'none';
+        messageBox.style.display = 'block';
+        messageBox.querySelector('.message').textContent = 'Thank you for playing!';
+        playAgainFromMessageButton.classList.add('hidden');
+        exitFromMessageButton.classList.add('hidden');
+    });
+});
