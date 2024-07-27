@@ -1,16 +1,15 @@
-/* General body styling */
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #e0f7fa; /* Light blue background */
+    background-color: #e0f7fa; 
     margin: 0;
     color: #333;
 }
 
-/* Game container styling */
+
 .game {
     text-align: center;
     background: #ffffff;
@@ -18,7 +17,7 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     padding: 20px;
     width: 400px;
-    border: 2px solid #4CAF50; /* Green border for emphasis */
+    border: 2px solid #4CAF50; 
 }
 
 .controls {
@@ -41,16 +40,15 @@ button:hover {
 }
 
 button:active {
-    transform: scale(0.98); /* Slightly scales down the button on click */
+    transform: scale(0.98); 
 }
 
 button.hidden {
     display: none;
 }
 
-/* Play Again and Exit button styling */
 #play-again-from-message, #exit-from-message {
-    background-color: #f57c00; /* Orange color */
+    background-color: #f57c00; 
     margin-top: 10px;
 }
 
@@ -58,7 +56,7 @@ button.hidden {
     background-color: #e64a19;
 }
 
-/* Stats section */
+
 .stats {
     margin-top: 10px;
     font-size: 16px;
@@ -68,10 +66,10 @@ button.hidden {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 18px;
-    color: #00796b; /* Teal color for the time limit */
+    color: #00796b; 
 }
 
-/* Board container and board styling */
+
 .board-container {
     display: flex;
     flex-direction: column;
@@ -88,7 +86,7 @@ button.hidden {
     grid-template-rows: repeat(4, 100px);
 }
 
-/* Card styling */
+
 .card {
     width: 100px;
     height: 100px;
@@ -108,16 +106,16 @@ button.hidden {
     align-items: center;
     font-size: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for card depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .card-front {
-    background-color: #009688; /* Teal background for card front */
+    background-color: #009688; 
     color: white;
 }
 
 .card-back {
-    background-color: #ffffff; /* White background for card back */
+    background-color: #ffffff; 
     color: #000000;
     transform: rotateY(180deg);
 }
@@ -142,12 +140,12 @@ button.hidden {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    border: 2px solid #d32f2f; /* Red border for lose message */
+    border: 2px solid #d32f2f; 
 }
 
 .message {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #d32f2f; /* Red color for lose message */
+    color: #d32f2f; 
     font-weight: bold;
 }
