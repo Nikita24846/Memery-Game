@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const symbols = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍍', '🥥', '🍓'];
     
     function startGame() {
-        resetGame();
         createBoard();
         startTimer();
         boardContainer.style.display = 'flex';
@@ -31,16 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         exitFromMessageButton.classList.add('hidden');
     }
 
-    function resetGame() {
-        clearInterval(timer);
-        time = 0;
-        moves = 0;
-        matchedCards = 0;
-        flippedCards = [];
-        movesElement.textContent = '0 moves';
-        timerElement.textContent = 'Time: 0 sec';
-        startButton.classList.remove('hidden');
-    }
 
     function startTimer() {
         timer = setInterval(() => {
