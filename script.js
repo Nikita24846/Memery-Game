@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playAgainFromMessageButton = document.querySelector('#play-again-from-message');
     const exitFromMessageButton = document.querySelector('#exit-from-message');
     const messageBox = document.querySelector('.message-box');
+    const messageElement = document.querySelector('.message'); 
 
     let cards;
     let flippedCards = [];
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let time = 0;
     const timeLimit = 60; 
 
+    
     const symbols = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍍', '🥥', '🍓'];
     
     function startGame() {
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loseGame() {
-        displayMessage('You are a loser!');
+        displayMessage('You lost!');
     }
 
     function displayMessage(message) {
@@ -128,11 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exitFromMessageButton.addEventListener('click', () => {
         boardContainer.style.display = 'none';
-        messageBox.style.display = 'block';
-        messageBox.querySelector('.message').textContent = 'Thank you for playing!';
+        movesElement.style.display = 'none';
+        timerElement.style.display = 'none';
+        messageElement.textContent = 'Thank you for playing!';
         playAgainFromMessageButton.classList.add('hidden');
         exitFromMessageButton.classList.add('hidden');
     });
 });
-
-
