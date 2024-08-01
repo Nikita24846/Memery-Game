@@ -14,9 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let moves = 0;
     let timer;
     let time = 0;
-    const timeLimit = 60; // 1 minute
+    const timeLimit = 60; 
 
-    // Update symbols with emojis
     const symbols = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍍', '🥥', '🍓'];
     
     function startGame() {
@@ -124,11 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startButton.addEventListener('click', startGame);
     playAgainFromMessageButton.addEventListener('click', () => {
-        location.reload(); // Reload the page to reset the game
+        location.reload(); 
     });
 
     exitFromMessageButton.addEventListener('click', () => {
-        // Hide the game area and display a thank you message
         boardContainer.style.display = 'none';
         messageBox.style.display = 'block';
         messageBox.querySelector('.message').textContent = 'Thank you for playing!';
@@ -136,4 +134,5 @@ document.addEventListener('DOMContentLoaded', () => {
         exitFromMessageButton.classList.add('hidden');
     });
 });
+
 
