@@ -17,7 +17,7 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     padding: 20px;
     width: 400px;
-    border: 2px solid #4CAF50;
+    border: 2px solid #4CAF50; 
 }
 
 .controls {
@@ -40,7 +40,7 @@ button:hover {
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: scale(0.98); 
 }
 
 button.hidden {
@@ -67,7 +67,7 @@ button.hidden {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 18px;
-    color: #00796b;
+    color: #00796b; 
 }
 
 
@@ -150,4 +150,5 @@ button.hidden {
     color: #d32f2f; 
     font-weight: bold;
 }
+
 
