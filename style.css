@@ -9,15 +9,20 @@ body {
     color: #333;
 }
 
-
 .game {
     text-align: center;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    padding: 30px;
     width: 400px;
     border: 2px solid #4CAF50; 
+}
+
+.game-heading {
+    font-size: 32px;
+    color: #00796b; 
+    margin-bottom: 20px;
 }
 
 .controls {
@@ -32,21 +37,15 @@ button {
     border-radius: 5px;
     background-color: #4CAF50;
     color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-button:active {
-    transform: scale(0.98); 
-}
-
 button.hidden {
     display: none;
 }
-
 
 #play-again-from-message, #exit-from-message {
     background-color: #f57c00; 
@@ -73,7 +72,7 @@ button.hidden {
 
 .board-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     align-items: center;
 }
 
@@ -87,11 +86,9 @@ button.hidden {
     grid-template-rows: repeat(4, 100px);
 }
 
-
 .card {
     width: 100px;
     height: 100px;
-    perspective: 1000px;
     cursor: pointer;
     position: relative;
     transition: transform 0.6s, box-shadow 0.3s;
@@ -129,7 +126,6 @@ button.hidden {
     transform: rotateY(360deg);
 }
 
-
 .message-box {
     display: none;
     text-align: center;
@@ -150,5 +146,3 @@ button.hidden {
     color: #d32f2f; 
     font-weight: bold;
 }
-
-
